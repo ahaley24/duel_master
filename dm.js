@@ -24,17 +24,13 @@ let prefix = "!dm ";
 //do this whenever a message occurs.
 bot.on("message", msg => 
     {
-    //### BASIC SETUP & COMMANDS ### 
+    //##### BASIC SETUP & COMMANDS ##### 
 
-        if(!msg.content.startsWith(prefix)) return; // Exit and stop if no prefix.
+        // Exit and stop if no prefix.
+        if(!msg.content.startsWith(prefix)) return; 
         
-        if(msg.author.bot) return;   // Exit if a bot.
-
-        //detect user and id and display them.
-        if(msg.content.toLowerCase() === prefix + "idme")
-        {
-            msg.channel.sendMessage("The ID of " + msg.author + " is " + msg.author.id);
-        }
+        // Exit if a bot.
+        if(msg.author.bot) return;   
 
         //shutdown the bot
         if (msg.content.toLowerCase() === prefix + "shutdown") 
@@ -42,7 +38,13 @@ bot.on("message", msg =>
             msg.channel.sendMessage("Shutting down...").then(() => { process.exit(); })
         }
 
-    //### PRIMARY FUNCTIONS ###
+        //detect user and id and display them.
+        if(msg.content.toLowerCase() === prefix + "idme")
+        {
+            msg.channel.sendMessage("The ID of " + msg.author + " is " + msg.author.id);
+        }
+
+    //##### PRIMARY FUNCTIONS #####
 
         //look for prefix
         if(msg.content.startsWith(prefix))
