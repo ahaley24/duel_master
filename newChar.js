@@ -1,5 +1,7 @@
 var Discord = require("discord.js"); //uses discord.js library
 const path = require('path');
+var MongoClient = require('mongodb').MongoClient;
+var assert = require('assert');
 
 var playerRoster = 
 [
@@ -10,7 +12,7 @@ module.exports = {
 
     newChar: function(user)
     {
-/*        for(var x = 0; x <= playerRoster.length; x++)
+        /*for(var x = 0; x <= playerRoster.length; x++)
         {
             
         }*/
@@ -22,6 +24,38 @@ module.exports = {
     charCheck: function()
     {
         return (playerRoster[0]);
+    },
+
+    updateDocument:  function(db, callback) 
+    {
+        db.collection('restaurants').insertOne( {
+            "address" : {
+                "street" : "2 Avenue",
+                "zipcode" : "10075",
+                "building" : "1480",
+                "coord" : [ -73.9557413, 40.7720266 ]
+            },
+            "borough" : "Manhattan",
+            "cuisine" : "Italian",
+            "grades" : [
+                {
+                    "date" : new Date("2014-10-01T00:00:00Z"),
+                    "grade" : "A",
+                    "score" : 11
+                },
+                {
+                    "date" : new Date("2014-01-16T00:00:00Z"),
+                    "grade" : "B",
+                    "score" : 17
+                }
+            ],
+            "name" : "Vella",
+            "restaurant_id" : "41704620"
+        }, function(err, result) {
+            assert.equal(err, null);
+            console.log("Inserted a document into the restaurants collection.");
+            callback();
+        });
     }
 
 }
