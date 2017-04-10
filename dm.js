@@ -11,7 +11,6 @@ const settings = require("./settings.json");
 var newCharFile = require("./newChar.js");
 
 
-
 //connect to local DB.
 bot.on("ready", () =>
 {
@@ -24,44 +23,15 @@ bot.on("ready", () =>
     });
 });
 
+
 // Set the prefix
 let prefix = "!dm ";
 
-/*var insertDocument = function(db, callback) {
-   db.collection('restaurants').insertOne( {
-      "address" : {
-         "street" : "2 Avenue",
-         "zipcode" : "10075",
-         "building" : "1480",
-         "coord" : [ -73.9557413, 40.7720266 ]
-      },
-      "borough" : "Manhattan",
-      "cuisine" : "Italian",
-      "grades" : [
-         {
-            "date" : new Date("2014-10-01T00:00:00Z"),
-            "grade" : "A",
-            "score" : 11
-         },
-         {
-            "date" : new Date("2014-01-16T00:00:00Z"),
-            "grade" : "B",
-            "score" : 17
-         }
-      ],
-      "name" : "Vella",
-      "restaurant_id" : "41704620"
-   }, function(err, result) {
-    assert.equal(err, null);
-    console.log("Inserted a document into the restaurants collection.");
-    callback();
-  });
-};*/
 
 //do this whenever a message occurs.
 bot.on("message", msg => 
     {
-    //##### BASIC SETUP & COMMANDS ##### 
+    //###### BASIC SETUP & COMMANDS ###### 
 
         // Exit and stop if no prefix.
         if(!msg.content.startsWith(prefix)) return; 
@@ -81,42 +51,57 @@ bot.on("message", msg =>
             msg.channel.sendMessage("The ID of " + msg.author + " is " + msg.author.id);
         }
 
-    //##### PRIMARY FUNCTIONS #####
+
+    //###### PRIMARY FUNCTIONS ######
 
         //look for prefix
         if(msg.content.startsWith(prefix))
         {
             //the newChar command to create a new character and/or add a player to the player roster.
-            if (msg.content.toLowerCase() === prefix + "newchar")
+/*            if (msg.content.toLowerCase() === prefix + "newchar")
             {
-                //calling a function from other file
+                //Passes author ID to be used by 'user' var in newChar.
                 msg.channel.sendMessage(newCharFile.newChar(msg.author.id)); 
                 
                 //Embeds an Embed from the newChar file.
                 //msg.channel.sendEmbed(newCharFile.newCharEmbed, 'There are two menus to choose from.',{ disableEveryone: true });
                 return;
 
-            }
-            //pull info from playerRoster array.
+            }*/
+
+/*            //pull info from playerRoster array.
             if (msg.content.toLowerCase() === prefix + "charcheck")
             {
                 msg.channel.sendMessage(newCharFile.charCheck());
-            }
-            //testing
-            if (msg.content.toLowerCase() === prefix + "update")
-            {
-                    
-                MongoClient.connect(url, function(err, db) {
-                assert.equal(null, err);
-                //insertDocument(db, function() {
-                    newCharFile.updateDocument(db, function() {
-                    db.close();
-                });
-                });
-                    
-            }
+            }*/
 
+            //testing
+            if (msg.content.toLowerCase() === prefix + "newchar")
+            {
+
+                /*MongoClient.connect(url, function(err, db)
+                {
+                    assert.equal(null, err);
+                    newCharFile.charCheck(db, msg.author.id);
+                });*/
+                
+
+
+
+                    
+                    MongoClient.connect(url, function(err, db) 
+                    {
+                        assert.equal(null, err);
+                        newCharFile.newChar(db, msg.author.id, function() 
+                        {
+                            db.close();
+                        });
+                    });
+                
+                    
+            }
         }
+
     }
 )
 
