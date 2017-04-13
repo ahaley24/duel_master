@@ -14,9 +14,10 @@ var newCharFile = require("./newChar.js");
 //connect to local DB.
 bot.on("ready", () =>
 {
-    
+    //err is node.js boilerplate error function passed in first. db is mongo boilerplate db reference.
     MongoClient.connect(url, function(err, db) 
     {
+        //assert.equal compares values of its parameters. comparing null to err, so that if there is no error it is True.
         assert.equal(null, err);
         console.log("Connected correctly to server.");
         db.close();
@@ -39,10 +40,17 @@ bot.on("message", msg =>
         // Exit if a bot.
         if(msg.author.bot) return;   
 
-        //shutdown the bot
+        //shutdown the bot. only responds to me.
         if (msg.content.toLowerCase() === prefix + "shutdown") 
         {
-            msg.channel.sendMessage("Shutting down...").then(() => { process.exit(); })
+            if (msg.author.id !== "197710242551824384" || "283258123882332161")
+            {
+                msg.channel.sendMessage("Shutting down...").then(() => { process.exit(); })
+            }
+            else
+            {
+                msg.channel.sendMessage("Ho ho ho. Ya koo tocha ka poonoo nee sok nyee.")
+            }
         }
 
         //detect user and id and display them.

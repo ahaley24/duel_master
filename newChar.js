@@ -18,16 +18,17 @@ module.exports =
         return ("The new character is for " + user);
     },*/
 
-/*    charCheck: function(db, callback)
+    charCheck: function(db, user)
     {
-        db.collection('players').find({})
-    },*/
+        db.collection('players').find({user})
+    },
 
     newChar:  function(db, user, callback) 
     {
         db.collection('players').insertOne
         ( 
             {
+                "_id" : user,
                 "playerName" : user,
                 "address" : {
                     "street" : "2 Avenue",
